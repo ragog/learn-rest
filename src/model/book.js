@@ -7,7 +7,7 @@ const Book = mongoose.model('Book', {
       default: 'unknown'
     },
     author: {
-      type: Array,
+      type: String,
       required: true,
       default: 'unknown'
     } // validate(value){ ... } for custom validation; use together with npm package 'validator'

@@ -2,6 +2,8 @@ const express = require('express')
 const Book = require ('../model/book.js')
 const Sandbox = require ('../model/sandbox.js')
 const router = new express.Router()
+const preExec = require('../middleware/middleware.js')
+router.use(preExec)
 
 router.get('/favourites' , async (req, res) => {
     console.log('get favourites')
