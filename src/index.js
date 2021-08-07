@@ -16,12 +16,14 @@ const app = express()
 const port = 3000
 
 app.use(express.json())
+app.use(cors())
+
 app.use('/books', booksRouter)
 app.use('/favourites', favouritesRouter)
 
-app.use(cors())
 app.get('/', async (req, res) => {
     apiKey = uuidv4();
+    console.log('Created new API Key = ' + apiKey)
     await new Sandbox({ apikey: apiKey, favourites: [], creationDate: Date.now() }).save()
     res.redirect(`/${apiKey}`)
 })
@@ -29,7 +31,7 @@ app.get('/', async (req, res) => {
 app.get('/:apiKey', async (req,res) => {
   if (req.params.apiKey !== "favicon.ico") {
     const apiKey = req.params.apiKey
-    console.log('... API Key = ' + apiKey)
+    console.log('Loading existing API Key = ' + apiKey)
     const books = await Book.find({})
     const sandbox = await Sandbox.findOne({ apikey: apiKey })
     const favourites = JSON.stringify(sandbox.favourites[0])
