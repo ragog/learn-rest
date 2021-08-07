@@ -16,8 +16,8 @@ const app = express()
 const port = 3000
 
 app.use(express.json())
-app.use('/', booksRouter)
-app.use('/', favouritesRouter)
+app.use('/books', booksRouter)
+app.use('/favourites', favouritesRouter)
 
 app.use(cors())
 app.get('/', async (req, res) => {
@@ -34,6 +34,11 @@ app.get('/:apiKey', async (req,res) => {
     const sandbox = await Sandbox.findOne({ apikey: apiKey })
     const favourites = JSON.stringify(sandbox.favourites[0])
 
+    let str = ''
+    for (book of books) {
+      str += `<li>${book}</li>`
+    }
+
     res.send(`
       <!DOCTYPE html>
       <div id="app">
@@ -44,7 +49,9 @@ app.get('/:apiKey', async (req,res) => {
         <div id="app-content">
           <h2>Books in store</h2>
           <div class="main-container">
-            ${books}
+            <ul>
+              ${str}
+            </ul>
           </div>
           <h2>Favourites</h2>
             ${favourites}
@@ -55,14 +62,6 @@ app.get('/:apiKey', async (req,res) => {
     `)
   }
 })
-
-// app.get('/c', async (req, res) => {
-//   apikey = uuidv4();
-//   await new Sandbox({ apikey: apikey, favourites: [], creationDate: Date.now() }).save()
-//   res.send(apikey)
-// })
-
-
 
 app.listen(port, () => {
   console.log(`>>> learn-rest listening at http://localhost:${port}`)

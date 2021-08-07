@@ -1,11 +1,12 @@
 const express = require('express')
 const Book = require ('../model/book.js')
 const Sandbox = require ('../model/sandbox.js')
-const router = new express.Router()
+const router = express.Router()
 const preExec = require('../middleware/middleware.js')
+
 router.use(preExec)
 
-router.get('/favourites' , async (req, res) => {
+router.get('/' , async (req, res) => {
     console.log('get favourites')
     
     const auth = req.headers.authorization
@@ -16,7 +17,7 @@ router.get('/favourites' , async (req, res) => {
 
 })
   
-router.put('/favourites' , async (req, res) => {
+router.put('/' , async (req, res) => {
 
     const auth = req.headers.authorization
     const token = auth.replace('Bearer ', '')
@@ -28,7 +29,7 @@ router.put('/favourites' , async (req, res) => {
 
 })
 
-router.delete('/favourites', async (req, res) => {
+router.delete('/', async (req, res) => {
 
     const auth = req.headers.authorization
     const token = auth.replace('Bearer ', '')
