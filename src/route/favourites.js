@@ -6,7 +6,7 @@ const preExec = require('../middleware/middleware.js')
 
 router.use(preExec)
 
-router.get('/' , async (req, res) => {
+router.get('/favourites' , async (req, res) => {
     console.log('get favourites')
     
     const auth = req.headers.authorization
@@ -17,7 +17,7 @@ router.get('/' , async (req, res) => {
 
 })
   
-router.put('/' , async (req, res) => {
+router.put('/favourites' , async (req, res) => {
 
     const auth = req.headers.authorization
     const token = auth.replace('Bearer ', '')
@@ -29,7 +29,7 @@ router.put('/' , async (req, res) => {
 
 })
 
-router.delete('/', async (req, res) => {
+router.delete('/favourites', async (req, res) => {
 
     const auth = req.headers.authorization
     const token = auth.replace('Bearer ', '')

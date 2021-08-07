@@ -18,8 +18,8 @@ const port = 3000
 app.use(express.json())
 app.use(cors())
 
-app.use('/books', booksRouter)
-app.use('/favourites', favouritesRouter)
+app.use('/api', booksRouter)
+app.use('/api', favouritesRouter)
 
 app.get('/', async (req, res) => {
     apiKey = uuidv4();
