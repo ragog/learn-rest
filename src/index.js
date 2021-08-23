@@ -1,3 +1,6 @@
+// TODOs
+// display request headers
+
 const express = require("express");
 const cors = require("cors");
 
@@ -48,8 +51,11 @@ app.get("/:apiKey", async (req, res) => {
     const books = await Book.find({});
     const sandbox = await Sandbox.findOne({ apikey: apiKey });
 
-    console.log('fav '+ sandbox.favourites[0])
-    const favourites = JSON.stringify(sandbox.favourites[0]);
+    const favourites = sandbox.favourites
+    let favouritesList = ""
+    for (favourite of favourites) {
+      favouritesList += `<li>${JSON.stringify(favourite)}</li>`;
+    }
 
     let bookList = "";
     for (book of books) {
@@ -57,12 +63,11 @@ app.get("/:apiKey", async (req, res) => {
     }
 
     if (lastRequest) {
-      console.log(lastRequest)
       const bodyString = JSON.stringify(lastRequest.body)
       requestDetails = `${lastRequest.method} ${lastRequest.url} ${bodyString}`
     }
 
-    res.send(homepage(apiKey, bookList, favourites, requestDetails));
+    res.send(homepage(apiKey, bookList, favouritesList, requestDetails));
   }
 });
 
