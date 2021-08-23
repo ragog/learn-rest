@@ -1,9 +1,3 @@
-// NO AUTH - temp session bound to cookie (autodeleted after some time) with clean env
-// TODO: factor out const auth = req.headers.authorization of each method
-// TODO: error handling on routes
-
-// index-level request intercepting middleware to show last received request?
-
 const express = require("express");
 const cors = require("cors");
 
@@ -53,6 +47,8 @@ app.get("/:apiKey", async (req, res) => {
     console.log("Loading existing API Key = " + apiKey);
     const books = await Book.find({});
     const sandbox = await Sandbox.findOne({ apikey: apiKey });
+
+    console.log('fav '+ sandbox.favourites[0])
     const favourites = JSON.stringify(sandbox.favourites[0]);
 
     let bookList = "";
@@ -60,7 +56,8 @@ app.get("/:apiKey", async (req, res) => {
       bookList += `<li>${book}</li>`;
     }
 
-    if (lastRequest) {console.log(lastRequest)
+    if (lastRequest) {
+      console.log(lastRequest)
       const bodyString = JSON.stringify(lastRequest.body)
       requestDetails = `${lastRequest.method} ${lastRequest.url} ${bodyString}`
     }

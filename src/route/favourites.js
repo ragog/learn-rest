@@ -20,7 +20,9 @@ router.put("/favourites", async (req, res) => {
   const auth = req.headers.authorization;
   const token = auth.replace("Bearer ", "");
 
-  const book = await Book.findOne({ id: req.body.id });
+  const bookId = parseInt(req.body.id)
+
+  const book = await Book.findOne({ id: bookId });
 
   await Sandbox.updateOne({ apikey: token }, { $push: { favourites: book } });
   res.send();
